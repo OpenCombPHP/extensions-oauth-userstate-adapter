@@ -26,6 +26,6 @@ class OAuth_userstate_adapter extends Extension
 		
 		
 		//转发
-		$aWeaveMgr->registerTemplate( 'userstate:UserState.html', "/div@0/model:foreach@0/dl@0/dd@0/div@3/textarea@0", 'oauth_userstate_adapter:aspect/ForwardState.html', Patch::appendAfter ) ;
+		$aWeaveMgr->registerTemplate( 'userstate:UserState.html', "/div@0/model:foreach@0/dl@0/dd@0/div@2/textarea@0", 'oauth_userstate_adapter:aspect/ForwardState.html', Patch::appendAfter ) ;
 	}
 }
