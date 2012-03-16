@@ -1,0 +1,15 @@
+<Extension>
+
+	<name>oauth_userstate_adapter</name>
+	<version>0.1</version>
+	<title>OAuth,UserSatae桥接表</title>
+	
+ 
+	<class>org.opencomb.oauth_userstate_adapter.OAuth_userstate_adapter</class>
+	<package folder="/class" namespace="org.opencomb.oauth_userstate_adapter" />
+	
+	<template folder="/template" />
+	
+	<publicFolder folder="/public" />
+	
+</Extension>
