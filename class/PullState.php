@@ -136,7 +136,6 @@ class PullState extends Controller
 	    $aRsT = $OAuthCommon -> multi_exec();
 	    
 	    
-// 	    echo "<pre>";print_r($aRsT['qzone.qq.com']);echo "</pre>";
 // 	    echo "<pre>";print_r(json_decode($aRsT['weibo.com'],true));echo "</pre>";
 // 	    echo "<pre>";print_r(json_decode($aRsT['163.com'],true));echo "</pre>";
 //   	echo "<pre>";print_r(json_decode($aRsT['t.qq.com'],true));echo "</pre>";
