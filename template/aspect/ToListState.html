@@ -1,0 +1,17 @@
+<if "$theModel['lastData']">
+	var tState = new Array();
+	var tStr = "";
+	jQuery("#lastDataDiv > input").each(function(k,v){
+		tStr = '"'+v.name+'":"'+v.value+'"';
+		tState.push(tStr);
+	})
+	
+	jQuery.ajax({
+	    type: "GET",
+	    url: "/?c=org.opencomb.oauth_userstate_adapter.PullState&lastData={"+tState.join(',')+"}",
+	    dataType: "html",
+	    success: function(html) {
+	    	
+	    }
+	});
+</if>

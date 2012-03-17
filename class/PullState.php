@@ -68,12 +68,10 @@ class PullState extends Controller
 	}
 	public function process()
 	{
-	    
 	    if(!IdManager::singleton()->currentId())
 	    {
 	        return;
 	    }
-	    
 	    
 	    $aId = IdManager::singleton()->currentId() ;
 	    
@@ -87,19 +85,50 @@ class PullState extends Controller
 	    
 	    foreach($this->auser->childIterator() as $o)
 	    {
-	        if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time()    /* && $o->service == "weibo.com" */   )
+	        /**
+	         * 拉新的
+	         */
+	        if(empty($this->params['lastData']))
 	        {
-	            //echo "<pre>";print_r("拉取:".$o->service);echo "</pre>";
-	            try{
-	                $aAdapter = AdapterManager::singleton()->createApiAdapter($o->service) ;
-	                $aRs = @$aAdapter->createTimeLineMulti($o,json_decode($o->pulldata,true));
-	            }catch(AuthAdapterException $e){
-	                $this->createMessage(Message::error,$e->messageSentence(),$e->messageArgvs()) ;
-	                $this->messageQueue()->display() ;
-	                return ;
+	            if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time()  /*  && $o->service == "weibo.com"  */  )
+	            {
+	                //echo "<pre>";print_r("拉取:".$o->service);echo "</pre>";
+	                try{
+	                    $aAdapter = AdapterManager::singleton()->createApiAdapter($o->service) ;
+	                    $aRs = @$aAdapter->createTimeLineMulti($o,json_decode($o->pulldata,true));
+	                }catch(AuthAdapterException $e){
+	                    $this->createMessage(Message::error,$e->messageSentence(),$e->messageArgvs()) ;
+	                    $this->messageQueue()->display() ;
+	                    return ;
+	                }
+	            }else{
+	                //echo "<pre>";print_r("时间未到:".$o->service);echo "</pre>";
 	            }
 	        }else{
-	            //echo "<pre>";print_r("时间未到:".$o->service);echo "</pre>";
+	            /**
+	             * 拉旧的
+	             */
+	            
+	            $aLastDataT = json_decode($this->params['lastData'],true);
+	            foreach ($aLastDataT as $k => $v)
+	            {
+	                $aServiceInfo = explode("_", $k);
+	                $aLastData[$aServiceInfo[0]][$aServiceInfo[1]] = $v;
+	            }
+	            
+	            if($o->hasData('token') && $o->hasData('token_secret') && @$aLastData[$o->service]['id']  )
+	            {
+	                try{
+	                    $aAdapter = AdapterManager::singleton()->createApiAdapter($o->service) ;
+	                    $aRs = @$aAdapter->createTimeLineMulti($o,$aLastData[$o->service]);
+	                }catch(AuthAdapterException $e){
+	                    $this->createMessage(Message::error,$e->messageSentence(),$e->messageArgvs()) ;
+	                    $this->messageQueue()->display() ;
+	                    return ;
+	                }
+	            }else{
+	                //echo "<pre>";print_r("时间未到:".$o->service);echo "</pre>";
+	            }
 	        }
 	    }
 	    
@@ -124,6 +153,8 @@ class PullState extends Controller
 	            $aRs = @$aAdapter->filterTimeLine($o->token,$o->token_secret,$aRsT[$o->service],json_decode($o->pulldata,true));
 	            
 	            //echo "<pre>";print_r($aRs);echo "</pre>";
+	            
+	            
 	            /**
 	             * 最新一条记录的时间
 	             */
