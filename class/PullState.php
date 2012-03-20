@@ -143,7 +143,7 @@ class PullState extends Controller
 // 	    echo "<pre>";print_r(json_decode($aRsT['douban.com'],true));echo "</pre>";
 // 	    echo "<pre>";print_r(json_decode($aRsT['sohu.com'],true));echo "</pre>";
 	    
-	    foreach($this->auser->childIterator() as $o)
+	    foreach($this->auser as $o)
 	    {
 	        if(!empty($aRsT[$o->service]))
 	        {
@@ -196,26 +196,6 @@ class PullState extends Controller
 	                $aRs[$i]['stid'] = $o->service."|".$aRs[$i]['id']."|".$uid;
 	                $aRs[$i]['service'] = $o->service;
 
-	                /**
-	                 * add feed
-	                 * @example new Controller
-	                 */
-	                if(!empty($aRs[$i]['source']))
-	                {
-	                    $sourceUid = $this->checkUid($aRs[$i]['source'],$o->service);
-	                    $aRs[$i]['source']['forwardtid'] = '0';
-	                    $aRs[$i]['source']['uid'] = $sourceUid;
-	                    $aRs[$i]['source']['stid'] = $o->service."|".$aRs[$i]['source']['id']."|".$sourceUid;
-	                    $aRs[$i]['source']['service'] = $o->service;
-	            
-	                    if($uid)
-	                    {
-    	                    $stateController = new CreateState($aRs[$i]['source']);
-    	                    $stateController->process();
-	                    }
-	                    
-	                    $aRs[$i]['forwardtid'] = "pull|".$o->service."|".$aRs[$i]['source']['id']."|".$sourceUid;
-	                }
 	                
 	                if($uid)
 	                {
@@ -243,13 +223,14 @@ class PullState extends Controller
 	    }
 	    
 	    $aId = IdManager::singleton()->currentId() ;
-	    $auserModelInfo = clone $this->auser->prototype()->criteria()->where();
-	    $this->auser->clearData();
-	    $auserModelInfo->eq('service',$service);
-	    $auserModelInfo->eq('suid',$aUserInfo['username']);
-	    $this->auser->load($auserModelInfo);
+	    $auserModelInfo = $this->auser->prototype()->createModel(true);
 	    
-	    if( $this->auser->isEmpty())
+	    $auserModelInfoWhere = $auserModelInfo->createWhere() ;
+	    $auserModelInfoWhere->eq('service',$service);
+	    $auserModelInfoWhere->eq('suid',$aUserInfo['username']);
+	    $auserModelInfo->load($auserModelInfoWhere);
+	    
+	    if( $auserModelInfo->isEmpty())
 	    {
 	        $this->user->clearData();
 	        $this->user->setData("username",$service."#".$aUserInfo['username']);
@@ -270,7 +251,7 @@ class PullState extends Controller
 	        
 	        $uid = $this->user->uid;
 	    }else{
-	        foreach($this->auser->childIterator() as $oAuser){
+	        foreach($auserModelInfo->childIterator() as $oAuser){
 	            $uid = $oAuser->uid;
 	        }
 	    }
