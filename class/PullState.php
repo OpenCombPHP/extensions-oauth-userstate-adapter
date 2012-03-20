@@ -196,6 +196,26 @@ class PullState extends Controller
 	                $aRs[$i]['stid'] = $o->service."|".$aRs[$i]['id']."|".$uid;
 	                $aRs[$i]['service'] = $o->service;
 
+	                /**
+	                 * add feed
+	                 * @example new Controller
+	                 */
+	                if(!empty($aRs[$i]['source']))
+	                {
+	                    $sourceUid = $this->checkUid($aRs[$i]['source'],$o->service);
+	                    $aRs[$i]['source']['forwardtid'] = '0';
+	                    $aRs[$i]['source']['uid'] = $sourceUid;
+	                    $aRs[$i]['source']['stid'] = $o->service."|".$aRs[$i]['source']['id']."|".$sourceUid;
+	                    $aRs[$i]['source']['service'] = $o->service;
+	            
+	                    if($uid)
+	                    {
+    	                    $stateController = new CreateState($aRs[$i]['source']);
+    	                    $stateController->process();
+	                    }
+	                    
+	                    $aRs[$i]['forwardtid'] = "pull|".$o->service."|".$aRs[$i]['source']['id']."|".$sourceUid;
+	                }
 	                
 	                if($uid)
 	                {
@@ -246,7 +266,6 @@ class PullState extends Controller
 	        $this->user->child("friends")->createChild()
 	        ->setData("from",$aId->userId());
 	    
-	        
 	        $this->user->save() ;
 	        
 	        $uid = $this->user->uid;
