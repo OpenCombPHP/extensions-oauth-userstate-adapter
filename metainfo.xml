@@ -9,7 +9,4 @@
 	<package folder="/class" namespace="org.opencomb.oauth_userstate_adapter" />
 	
 	<template folder="/template" />
-	
-	<publicFolder folder="/public" />
-	
 </Extension>
