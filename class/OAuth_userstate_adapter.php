@@ -25,7 +25,7 @@ class OAuth_userstate_adapter extends Extension
 		
 		//发布消息同步到weibo
 		AOP::singleton()->register('org\\opencomb\\oauth_userstate_adapter\\aspect\\UserStatePushStateAspect') ;
-		$aWeaveMgr->registerTemplate( 'userstate:CreateState.html', "/form@0/div@0/div@0/div@0/div@1/div@0", 'oauth_userstate_adapter:aspect/pushState.html', Patch::appendAfter ) ;
+		$aWeaveMgr->registerTemplate( 'userstate:CreateState.html', "/form@0/div@0/div@0/div@0/div@1", 'oauth_userstate_adapter:aspect/pushState.html', Patch::insertBefore ) ;
 		
 		
 		//拉取
