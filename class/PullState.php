@@ -83,7 +83,7 @@ class PullState extends Controller
 	    $auserModelWhere->eq('uid',$aId->userId());
 	    $this->auser->load($auserModelWhere) ;
 	    
-	    foreach($this->auser->childIterator() as $o)
+	    foreach($this->auser as $o)
 	    {
 	        /**
 	         * 拉新的
