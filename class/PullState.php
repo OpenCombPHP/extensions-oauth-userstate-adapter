@@ -81,6 +81,7 @@ class PullState extends Controller
 	     */
 	    $auserModelWhere = clone $this->auser->prototype()->criteria()->where();
 	    $auserModelWhere->eq('uid',$aId->userId());
+	    $auserModelWhere->ne('token',"");
 	    $this->auser->load($auserModelWhere) ;
 	    
 	    foreach($this->auser as $o)
@@ -253,7 +254,7 @@ class PullState extends Controller
 	    if( $auserModelInfo->isEmpty())
 	    {
 	        $this->user->clearData();
-	        $this->user->setData("username",$service."#".$aUserInfo['username']);
+	        $this->user->setData("username",$service."#".$aUserInfo['uid']);
 	        $this->user->setData("password",md5($service."#".$aUserInfo['username'])) ;
 	        $this->user->setData("registerTime",time()) ;
 	    
