@@ -61,6 +61,15 @@ class PullState extends Controller
                 	) ,
                     'list' => true,
             ) ,
+	        /**
+	         * 用来快速获取，friend信息
+	         */
+            'model:friend' => array(
+                	'orm' => array(
+                		'table' => 'friends:subscription' ,
+		                'keys'=>array('from','to'),
+                	) ,
+            ) ,
 	            
 		) ;
 	    
@@ -273,6 +282,21 @@ class PullState extends Controller
 	        
 	        $uid = $this->user->uid;
 	    }else{
+	        
+	        $friendModel = $this->friend->prototype()->createModel(true);
+	        $friendWhere = $friendModel->createWhere() ;
+	        $friendWhere->eq('from',$aId->userId());
+	        $friendWhere->eq('to',$auserModelInfo->uid);
+	        $friendModel->load($friendWhere);
+	        
+    	    if( $friendModel->isEmpty())
+    	    {
+    	        $friendModel2 = $this->friend->prototype()->createModel() ;
+	            $friendModel2->setData("from",$aId->userId());
+	            $friendModel2->setData("to",$auserModelInfo->uid);
+	            $friendModel2->save(true);
+    	    }
+	        
 	        foreach($auserModelInfo->childIterator() as $oAuser){
 	            $uid = $oAuser->uid;
 	        }
