@@ -247,7 +247,7 @@ class PullState extends Controller
 	    
 	    $auserModelInfoWhere = $auserModelInfo->createWhere() ;
 	    $auserModelInfoWhere->eq('service',$service);
-	    $auserModelInfoWhere->eq('suid',$aUserInfo['username']);
+	    $auserModelInfoWhere->eq('suid',$aUserInfo['uid']);
 	    $auserModelInfo->load($auserModelInfoWhere);
 	    
 	    if( $auserModelInfo->isEmpty())
@@ -258,7 +258,7 @@ class PullState extends Controller
 	        $this->user->setData("registerTime",time()) ;
 	    
 	        $this->user->setData('auser.service',$service);
-	        $this->user->setData('auser.suid',$aUserInfo['username']);
+	        $this->user->setData('auser.suid',$aUserInfo['uid']);
 	        $this->user->setData("auser.nickname",$aUserInfo['nickname']);
 	        $this->user->setData("auser.username",$aUserInfo['username']);
 	    
