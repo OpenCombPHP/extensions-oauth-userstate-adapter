@@ -223,7 +223,7 @@ class PullState extends Controller
     	                    $stateController->process();
 	                    }
 	                    
-	                    $aRs[$i]['forwardtid'] = "pull|".$o->service."|".$aRs[$i]['source']['id']."|".$sourceUid;
+	                    $aRs[$i]['forwardtid'] = "pull|".$o->service."|".sprintf('%1.0f', $aRs[$i]['source']['id'])."|".$sourceUid;
 	                }
 	                
 	                if($uid)
