@@ -147,7 +147,10 @@ class PullState extends Controller
 	    
 	    
 // 	    echo "<pre>";print_r(json_decode($aRsT['weibo.com'],true));echo "</pre>";
-// 	    echo "<pre>";print_r(json_decode($aRsT['163.com'],true));echo "</pre>";
+// if(isset($aRsT['163.com'])){
+// 	echo "<pre>";print_r(json_decode($aRsT['163.com'],true));echo "</pre>";
+// }
+	   
 //   	echo "<pre>";print_r(json_decode($aRsT['t.qq.com'],true));echo "</pre>";
 // 	    echo "<pre>";print_r(json_decode($aRsT['renren.com'],true));echo "</pre>";
 // 	    echo "<pre>";print_r(json_decode($aRsT['douban.com'],true));echo "</pre>";
@@ -204,7 +207,7 @@ class PullState extends Controller
 	                $aRs[$i]['uid'] = $uid;
 	                $aRs[$i]['forwardtid'] = '0';
 	                
-	                $aRs[$i]['stid'] = $o->service."|".sprintf('%1.0f', $aRs[$i]['id'])."|".$uid;
+	                $aRs[$i]['stid'] = $o->service."|".sprintf('%s', $aRs[$i]['id'])."|".$uid;
 	                $aRs[$i]['service'] = $o->service;
 	                /**
 	                 * add feed
@@ -215,7 +218,7 @@ class PullState extends Controller
 	                    $sourceUid = $this->checkUid($aRs[$i]['source'],$o->service);
 	                    $aRs[$i]['source']['forwardtid'] = '0';
 	                    $aRs[$i]['source']['uid'] = $sourceUid;
-	                    $aRs[$i]['source']['stid'] = $o->service."|".sprintf('%1.0f', $aRs[$i]['source']['id'])."|".$sourceUid;
+	                    $aRs[$i]['source']['stid'] = $o->service."|".sprintf('%s', $aRs[$i]['source']['id'])."|".$sourceUid;
 	                    $aRs[$i]['source']['service'] = $o->service;
 	                    if($uid)
 	                    {
@@ -223,12 +226,15 @@ class PullState extends Controller
     	                    $stateController->process();
 	                    }
 	                    
-	                    $aRs[$i]['forwardtid'] = "pull|".$o->service."|".sprintf('%1.0f', $aRs[$i]['source']['id'])."|".$sourceUid;
+	                    $aRs[$i]['forwardtid'] = "pull|".$o->service."|".sprintf('%s', $aRs[$i]['source']['id'])."|".$sourceUid;
 	                }
 	                
 	                if($uid)
 	                {
 	                    $stateController = new CreateState($aRs[$i]);
+// 	                    if($aRs[$i]['service'] == '163.com'){
+// 	                    	var_dump($aRs[$i]);
+// 	                    }
 	                    $stateController->process();
 	                }
 	            }
