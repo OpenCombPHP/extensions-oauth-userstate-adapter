@@ -100,7 +100,7 @@ class PullState extends Controller
 	         */
 	        if(empty($this->params['lastData']))
 	        {
-	            if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time()  /*  && $o->service == "weibo.com"  */  )
+	            if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time()    && $o->service == "163.com"   )
 	            {
 	                //echo "<pre>";print_r("拉取:".$o->service);echo "</pre>";
 	                try{
@@ -216,6 +216,7 @@ class PullState extends Controller
 	                if(!empty($aRs[$i]['source']))
 	                {
 	                    $sourceUid = $this->checkUid($aRs[$i]['source'],$o->service);
+	                    
 	                    $aRs[$i]['source']['forwardtid'] = '0';
 	                    $aRs[$i]['source']['uid'] = $sourceUid;
 	                    $aRs[$i]['source']['stid'] = $o->service."|".sprintf('%s', $aRs[$i]['source']['id'])."|".$sourceUid;
