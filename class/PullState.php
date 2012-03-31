@@ -100,7 +100,7 @@ class PullState extends Controller
 	         */
 	        if(empty($this->params['lastData']))
 	        {
-	            if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time()    && $o->service == "163.com"   )
+	            if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time()   /*  && $o->service == "163.com"  */  )
 	            {
 	                //echo "<pre>";print_r("拉取:".$o->service);echo "</pre>";
 	                try{
