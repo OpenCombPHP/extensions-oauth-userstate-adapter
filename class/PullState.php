@@ -276,13 +276,14 @@ class PullState extends Controller
 	        $this->user->setData('auser.suid',$aUserInfo['uid']);
 	        $this->user->setData("auser.nickname",$aUserInfo['nickname']);
 	        $this->user->setData("auser.username",$aUserInfo['username']);
+	        $this->user->setData("auser.verified",(int)$aUserInfo['verified']);
 	    
 	        $this->user->setData("info.nickname",$aUserInfo['nickname']);
 	        $this->user->setData("info.avatar",$aUserInfo['avatar']);
 	    
 	        $this->user->child("friends")->createChild()
 	        ->setData("from",$aId->userId());
-	    
+	        
 	        $this->user->save() ;
 	        
 	        $uid = $this->user->uid;
