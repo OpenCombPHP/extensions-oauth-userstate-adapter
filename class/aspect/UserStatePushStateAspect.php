@@ -13,16 +13,6 @@ use org\jecat\framework\lang\aop\jointpoint\JointPointMethodDefine;
 class UserStatePushStateAspect
 {
 	/**
-	 * @pointcut
-	 */
-	public function pointcutUserStatePushStateAspect()
-	{
-		return array(
-			new JointPointMethodDefine('org\\opencomb\\userstate\\CreateState','process') ,
-		) ;
-	}
-	
-	/**
 	 * @advice around
 	 * @for pointcutUserStatePushStateAspect
 	 */

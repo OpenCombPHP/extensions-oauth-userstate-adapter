@@ -7,16 +7,6 @@ use org\jecat\framework\lang\aop\jointpoint\JointPointMethodDefine;
 class UserStatePullStateAspect
 {
 	/**
-	 * @pointcut
-	 */
-	public function pointcutUserStatePullStateAspect()
-	{
-		return array(
-			new JointPointMethodDefine('org\\opencomb\\userstate\\NewStateNumber','process') ,
-		) ;
-	}
-	
-	/**
 	 * @advice around
 	 * @for pointcutUserStatePullStateAspect
 	 */
