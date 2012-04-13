@@ -84,14 +84,7 @@ class PullState extends Controller
 	    
 	    $aId = IdManager::singleton()->currentId() ;
 	    
-	    /**
-	     * 克隆MODEL-Where，只用来获得用户KEY
-	     * @var unknown_type
-	     */
-	    $auserModelWhere = clone $this->auser->prototype()->criteria()->where();
-	    $auserModelWhere->eq('uid',$aId->userId());
-	    $auserModelWhere->ne('token',"");
-	    $this->auser->load($auserModelWhere) ;
+	    $this->auser->loadSql('uid = @1 and token <> @2' , $aId->userId() , "") ;
 	    
 	    foreach($this->auser as $o)
 	    {
@@ -256,10 +249,7 @@ class PullState extends Controller
 	    $aId = IdManager::singleton()->currentId() ;
 	    $auserModelInfo = $this->auser->prototype()->createModel(true);
 	    
-	    $auserModelInfoWhere = $auserModelInfo->createWhere() ;
-	    $auserModelInfoWhere->eq('service',$service);
-	    $auserModelInfoWhere->eq('suid',$aUserInfo['uid']);
-	    $auserModelInfo->load($auserModelInfoWhere);
+	    $auserModelInfo->loadSql('service = @1 and suid = @2' , $service , $aUserInfo['uid']);
 	    
 	    if( $auserModelInfo->isEmpty())
 	    {
@@ -286,10 +276,7 @@ class PullState extends Controller
 	    }else{
 	        
 	        $friendModel = $this->friend->prototype()->createModel(true);
-	        $friendWhere = $friendModel->createWhere() ;
-	        $friendWhere->eq('from',$aId->userId());
-	        $friendWhere->eq('to',$auserModelInfo->uid);
-	        $friendModel->load($friendWhere);
+	        $friendModel->loadSql('from = @1 and to = @2' , $aId->userId() , $auserModelInfo->uid);
 	        
     	    if( $friendModel->isEmpty())
     	    {

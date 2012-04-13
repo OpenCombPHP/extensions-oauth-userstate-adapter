@@ -58,14 +58,7 @@ class ForwardState extends Controller
 	    
 	    
 	    $aId = IdManager::singleton()->currentId() ;
-	    
-	    /**
-	     * 克隆MODEL-Where，只用来获得用户KEY
-	     * @var unknown_type
-	     */
-	    $auserModelWhere = clone $this->auser->prototype()->criteria()->where();
-	    $auserModelWhere->eq('uid',$aId->userId());
-	    $this->auser->load($auserModelWhere) ;
+	    $this->auser->loadSql('uid = @1' , $aId->userId()) ;
 	    
 	    foreach($this->auser->childIterator() as $o)
 	    {

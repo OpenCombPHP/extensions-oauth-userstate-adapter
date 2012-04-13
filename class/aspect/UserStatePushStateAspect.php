@@ -49,9 +49,7 @@ class UserStatePushStateAspect
 	                        'orm' => array(
 	                                'table' => 'oauth:state' ,
 		                            'keys'=>array('sid','service'),
-	                                'where' => array(
-	                                    array('eq','stid',$this->params['forwardtid']) ,
-	                                ) ,
+	                                'where' => array('stid = @1',$this->params['forwardtid']) ,
 	                        ) ,
 	                ), 'UserStatePushStateAspect' ) ;
 	                $aModel->load() ;
