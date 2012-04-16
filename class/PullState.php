@@ -276,7 +276,7 @@ class PullState extends Controller
 	    }else{
 	        
 	        $friendModel = $this->friend->prototype()->createModel(true);
-	        $friendModel->loadSql('from = @1 and to = @2' , $aId->userId() , $auserModelInfo->uid);
+	        $friendModel->loadSql('`from` = @1 and `to` = @2' , $aId->userId() , $auserModelInfo->uid);
 	        
     	    if( $friendModel->isEmpty())
     	    {
