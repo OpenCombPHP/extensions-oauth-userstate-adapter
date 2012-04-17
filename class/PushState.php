@@ -67,6 +67,10 @@ class PushState extends Controller
 	        {
 	            try{
 	                $aAdapter = AdapterManager::singleton()->createApiAdapter($o->service) ;
+	                
+	                $oFace = new \org\opencomb\userstate\FaceIcon();
+	                $sTitle = $oFace->changeTag($sTitle, $o->service);
+	                
 	                $aRs = @$aAdapter->createPushMulti($o,$sTitle);
 	            }catch(AuthAdapterException $e){
 	                $this->createMessage(Message::error,$e->messageSentence(),$e->messageArgvs()) ;
