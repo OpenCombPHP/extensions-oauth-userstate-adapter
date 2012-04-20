@@ -245,7 +245,6 @@ class PullState extends Controller
 	    {
 	        return false;
 	    }
-	    
 	    $aId = IdManager::singleton()->currentId() ;
 	    $auserModelInfo = $this->auser->prototype()->createModel(true);
 	    
@@ -271,7 +270,6 @@ class PullState extends Controller
 	        ->setData("from",$aId->userId());
 	        
 	        $this->user->save() ;
-	        
 	        $uid = $this->user->uid;
 	    }else{
 	        
