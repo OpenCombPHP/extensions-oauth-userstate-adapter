@@ -19,8 +19,8 @@ use org\opencomb\coresystem\mvc\controller\Controller ;
 
 class PullState extends Controller
 {
-    private $minNextTime = 4;
-    private $maxNextTime = 20;
+    private $minNextTime = 30;
+    private $maxNextTime = 600;
     
 	public function createBeanConfig()
 	{
@@ -166,7 +166,7 @@ class PullState extends Controller
 	                 * 如果没有更新到数据下次更新时间增加
 	                 * @var unknown_type
 	                 */
-	                $nextTime = $o->pullnexttime +4;
+	                $nextTime = $o->pullnexttime +30;
 	                if($nextTime > $this->maxNextTime)
 	                {
 	                    $nextTime = $this->maxNextTime;
