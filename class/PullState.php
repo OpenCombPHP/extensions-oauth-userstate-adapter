@@ -228,7 +228,7 @@ class PullState extends Controller
 	                    $stateController->process();
 	                }
 	            }
-	            $o->save() ;
+				$o->save() ;
 	        }
 	    }
 	    
