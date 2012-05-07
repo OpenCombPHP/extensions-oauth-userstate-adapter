@@ -76,6 +76,7 @@ class PullState extends Controller
 	}
 	public function process()
 	{
+	    
 	    if(!IdManager::singleton()->currentId())
 	    {
 	        return;
@@ -92,9 +93,12 @@ class PullState extends Controller
 	         */
 	        if(empty($this->params['lastData']))
 	        {
-	            if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time()  /* && $o->service == "weibo.com" */ )
+	            if($o->hasData('token') && $o->hasData('token_secret') && ($o->pulltime+$o->pullnexttime) < time() /* &&  $o->service == "t.qq.com" */ )
 	            {
 	                //echo "<pre>";print_r("拉取:".$o->service);echo "</pre>";
+	                
+	                /*$aAdapter = AdapterManager::singleton()->createApiAdapter($o->service) ;
+	                $aRs = @$aAdapter->createTimeLineMulti($o,json_decode($o->pulldata,true));*/
 	                try{
 	                    $aAdapter = AdapterManager::singleton()->createApiAdapter($o->service) ;
 	                    $aRs = @$aAdapter->createTimeLineMulti($o,json_decode($o->pulldata,true));
@@ -136,6 +140,7 @@ class PullState extends Controller
 	    
 	    $OAuthCommon = new OAuthCommon("",  "");
 	    $aRsT = $OAuthCommon -> multi_exec();
+	    
 	    /* echo "<pre>";print_r(json_decode($aRsT['weibo.com'],true));echo "</pre>";
 	    echo "<pre>";print_r(json_decode($aRsT['163.com'],true));echo "</pre>";
   	    echo "<pre>";print_r(json_decode($aRsT['t.qq.com'],true));echo "</pre>";
