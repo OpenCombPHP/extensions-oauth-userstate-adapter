@@ -108,6 +108,7 @@ class UserStatePushStateAspect
 	                $aParams = array(
 	                        'service'=>$aWeibo,
 	                        'title'=>$this->params['body'],
+	                        'picPath'=>$this->params['picPath'],
 	                        'stid'=>$stid,
 	                );
 	                $oOauthPush = new PushState($aParams);

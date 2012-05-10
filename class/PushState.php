@@ -49,13 +49,13 @@ class PushState extends Controller
 	    
 	    $aService = $this->params['service'];
 	    $sTitle = $this->params['title'];
+	    $sPicPath = $this->params['picPath'];
 	    
 	    
 	    if(empty($aService) || empty($sTitle))
 	    {
 	        return;
 	    }
-	    
 	    
 	    $aId = IdManager::singleton()->currentId() ;
 	    
@@ -71,7 +71,7 @@ class PushState extends Controller
 	                $oFace = new \org\opencomb\userstate\FaceIcon();
 	                $sTitle = $oFace->changeTag($sTitle, $o->service);
 	                
-	                $aRs = @$aAdapter->createPushMulti($o,$sTitle);
+	                $aRs = @$aAdapter->createPushMulti($o,$sTitle,$sPicPath);
 	            }catch(AuthAdapterException $e){
 	                $this->createMessage(Message::error,$e->messageSentence(),$e->messageArgvs()) ;
 	                $this->messageQueue()->display() ;
@@ -82,7 +82,6 @@ class PushState extends Controller
 	    
 	    $OAuthCommon = new OAuthCommon("",  "");
 	    $aRsT = $OAuthCommon -> multi_exec();
-	    
 	    
 	    $aIdList = array();
 	    foreach($this->auser->childIterator() as $o)
