@@ -28,6 +28,14 @@ class OAuth_userstate_adapter extends Extension {
 						'org\\opencomb\\oauth_userstate_adapter\\aspect\\UserStatePushStateAspect', // 发布消息同步到weibo
 						'process' 
 				) 
+		), __FILE__ )->registerBean ( array (
+				// jointpoint
+				'org\\opencomb\\userstate\\UpdateForwardNumber::process()',
+				// advice
+				array (
+						'org\\opencomb\\oauth_userstate_adapter\\aspect\\NewStateNumberAspect', 
+						'process' 
+				) 
 		), __FILE__ );
 		
 		$aWeaveMgr = WeaveManager::singleton ();
