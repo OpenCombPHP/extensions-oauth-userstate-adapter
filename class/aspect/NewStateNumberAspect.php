@@ -30,7 +30,7 @@ class NewStateNumberAspect
 	{
 		
 		// 调用原始原始函数
-		$stid = aop_call_origin() ;
+		aop_call_origin() ;
 		
 		$stid = $this->params["stid"];
 	    $service = $this->params["service"];
